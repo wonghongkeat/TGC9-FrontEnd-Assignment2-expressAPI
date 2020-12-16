@@ -18,18 +18,22 @@ async function main() {
     await MongoUtil.connect(MONGO_URL, "tgc9_assignment2");
     let db = MongoUtil.getDB();
 
+    // to retrieve the database
     app.get('/', async function(req,res){
         let listings = await db.collection('players_score').find().toArray()
         res.send(listings)
       
     })
 
+    // to retrieve specific data
     app.get('/:id', async function(req,res){
         let score = await db.collection('players_score').findOne({
             '_id':ObjectId(req.params.id)
         })
         res.send(score)
     })
+
+    // to
 
 
 
