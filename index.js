@@ -33,7 +33,17 @@ async function main() {
         res.send(score)
     })
 
-    // to
+    // to delete
+    app.delete('/:id', async function(req,res){
+        await db.collection('players_score').deleteOne({
+            _id: ObjectId(req.params.id)
+        })
+        res.send({
+            'status':'ok'
+        })
+    })
+
+    
 
 
 
