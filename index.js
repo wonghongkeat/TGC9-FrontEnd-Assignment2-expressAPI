@@ -43,7 +43,7 @@ async function main() {
             'status':'ok'
         })
     })
-
+    //to edit
     app.patch('/:id', async function(req,res){
         let {name,score} = req.body
         await db.collection('players_score').updateOne({
@@ -55,6 +55,16 @@ async function main() {
         res.send('update done')
     })
 
+    // to create
+    app.post('/', async function(req,res){
+        let {
+            name, score
+        } = req.body
+        await db.collection('players_score').insertOne({
+            name,score
+        })
+        res.send('new info created')
+    })
 
 
 
