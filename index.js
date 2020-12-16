@@ -11,6 +11,7 @@ require('dotenv').config();
 const app = express();
 app.set('view engine','hbs')
 app.use(express.static('public'))
+app.use(express.json());
 
 
 async function main() {
@@ -43,7 +44,17 @@ async function main() {
         })
     })
 
-    
+    app.patch('/:id', async function(req,res){
+        let {name,score} = req.body
+        await db.collection('players_score').updateOne({
+            '_id':ObjectId(req.params.id)
+        },
+        {
+            '$set' :{name, score}
+        })
+        res.send('update done')
+    })
+
 
 
 
