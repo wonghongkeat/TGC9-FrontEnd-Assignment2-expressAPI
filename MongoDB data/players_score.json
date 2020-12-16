@@ -1,0 +1,13 @@
+{	"_id":{"$oid":"5fd9834e9ab632f648a8567d"},
+	"name":"whk",
+	"score":"10"
+},
+
+{	"_id":{"$oid":"5fd9837d9ab632f648a8567e"},
+	"name":"pck",
+	"score":"5"
+},
+{	"_id":{"$oid":"5fd983949ab632f648a8567f"},
+	"name":"bjl",
+	"score":"25"
+}
