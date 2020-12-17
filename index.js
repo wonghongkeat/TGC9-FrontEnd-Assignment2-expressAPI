@@ -2,6 +2,7 @@
 const express = require('express');
 const MongoUtil = require('./MongoUtil.js')
 const ObjectId = require('mongodb').ObjectId;
+const cors = require('cors')
 
 
 // load in environment variables
@@ -12,6 +13,7 @@ const app = express();
 app.set('view engine','hbs')
 app.use(express.static('public'))
 app.use(express.json());
+app.use (cors())
 
 
 async function main() {

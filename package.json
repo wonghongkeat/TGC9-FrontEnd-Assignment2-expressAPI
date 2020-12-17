@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/wonghongkeat/TGC9-FrontEnd-Assignment2-expressAPI#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
