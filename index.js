@@ -47,12 +47,17 @@ async function main() {
     })
     //to edit
     app.patch('/:id', async function (req, res) {
-        let { name, score } = req.body
+        let { level, score } = req.body
         await db.collection('players_score').updateOne({
-            '_id': ObjectId(req.params.id)
+            '_id': ObjectId(req.params.id),
+            'scores.level': level
         },
             {
-                '$set': { name, score }
+
+                    '$push': {
+                        'scores.$.score': score
+                    }
+                
             })
         res.send('update done')
     })
