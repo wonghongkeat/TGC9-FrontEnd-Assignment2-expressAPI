@@ -23,14 +23,14 @@ async function main() {
 
     // to retrieve the database
     app.get('/', async function (req, res) {
-        let listings = await db.collection('players_score').find().toArray()
+        let listings = await db.collection('levels').find().toArray()
         res.send(listings)
 
     })
 
     // to retrieve specific data
     app.get('/:id', async function (req, res) {
-        let score = await db.collection('players_score').findOne({
+        let score = await db.collection('levels').findOne({
             '_id': ObjectId(req.params.id)
         })
         res.send(score)
@@ -38,7 +38,7 @@ async function main() {
 
     // to delete
     app.delete('/:id', async function (req, res) {
-        await db.collection('players_score').deleteOne({
+        await db.collection('levels').deleteOne({
             _id: ObjectId(req.params.id)
         })
         res.send({
@@ -48,17 +48,16 @@ async function main() {
     //to edit
     app.patch('/:id', async function (req, res) {
         let { level, score } = req.body
-        await db.collection('players_score').updateOne({
+        await db.collection('levels').updateOne({
             '_id': ObjectId(req.params.id),
             'scores.level': level
         },
-            {
-
-                    '$push': {
-                        'scores.$.score': score
-                    }
-                
-            })
+        {
+            '$push': {
+                'scores.$.score': score
+            }
+        }
+        )
         res.send('update done')
     })
 
@@ -67,7 +66,7 @@ async function main() {
         let {
             name, score
         } = req.body
-        await db.collection('players_score').insertOne({
+        await db.collection('levels').insertOne({
             name, score
         })
         res.send('new info created')
