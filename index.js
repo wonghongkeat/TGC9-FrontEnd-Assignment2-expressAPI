@@ -47,14 +47,12 @@ async function main() {
     })
     //to edit
     app.patch('/:id', async function (req, res) {
-        let { level, score } = req.body
+        let { playerScore } = req.body
+        console.log('plaer')
         await db.collection('levels').updateOne({
-            '_id': ObjectId(req.params.id),
-            'scores.level': level
-        },
-        {
+            '_id': ObjectId(req.params.id)},{
             '$push': {
-                'scores.$.score': score
+                'player': playerScore
             }
         }
         )
@@ -62,11 +60,10 @@ async function main() {
     })
 
     // to create
-    app.post('/', async function (req, res) {
-        let {
-            name, score
-        } = req.body
+    app.post('/create', async function (req, res) {
+        let {name, score} = req.body
         await db.collection('levels').insertOne({
+            
             name, score
         })
         res.send('new info created')
