@@ -4,14 +4,9 @@ const MongoUtil = require('./MongoUtil.js')
 const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors')
 
-
-// load in environment variables
 require('dotenv').config();
 
-// create the app
 const app = express();
-app.set('view engine', 'hbs')
-app.use(express.static('public'))
 app.use(express.json());
 app.use(cors())
 
@@ -23,8 +18,9 @@ async function main() {
 
     // to retrieve the database
     app.get('/', async function (req, res) {
-        let listings = await db.collection('levels').find().toArray()
-        res.send(listings)
+        let levels = await db.collection('levels').find().toArray()
+
+        res.send(levels)
 
     })
 
@@ -36,7 +32,7 @@ async function main() {
         res.send(score)
     })
 
-    // to delete
+    // delete
     app.delete('/:id', async function (req, res) {
         await db.collection('levels').deleteOne({
             _id: ObjectId(req.params.id)
@@ -45,34 +41,42 @@ async function main() {
             'status': 'ok'
         })
     })
-    //to edit
+    //edit
     app.patch('/:id', async function (req, res) {
-        let { playerScore } = req.body
-        console.log('plaer')
+        let { name, score} = req.body
+        // console.log(playerScore)
         await db.collection('levels').updateOne({
             '_id': ObjectId(req.params.id)},{
             '$push': {
-                'player': playerScore
+                'player': {name, score}
             }
         }
         )
         res.send('update done')
+
+        
+        // let player_score = await db.collection('players_score')
+        // let newPlayer = player_score.find(({name:i}) => i === name)
+        // if (newPlayer){
+        //     await db.collection('players_score').insertOne({
+        //         player_score.
+        //     })
+        // }
     })
 
-    // to create
+    // create
     app.post('/create', async function (req, res) {
-        let {name, score} = req.body
-        await db.collection('levels').insertOne({
-            
-            name, score
+        let {name, score, level} = req.body
+        await db.collection('players_score').insertOne({
+            name, 
+            level:{
+                 [level]: [score]
+                }
         })
         res.send('new info created')
+    
+
     })
-
-
-
-
-
 
 }
 
