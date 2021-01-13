@@ -16,7 +16,7 @@ async function main() {
     await MongoUtil.connect(MONGO_URL, "tgc9_assignment2");
     let db = MongoUtil.getDB();
 
-    // to retrieve the database
+    // to retrieve the levels database
     app.get('/', async function (req, res) {
         let levels = await db.collection('levels').find().toArray()
 
@@ -24,7 +24,16 @@ async function main() {
 
     })
 
-    // to retrieve specific data
+    // to retrieve the players_score database
+      app.get('/players_score', async function (req, res) {
+        let levels = await db.collection('players_score').find().toArray()
+
+        res.send(levels)
+
+    })
+
+
+    // to retrieve specific data from levels
     app.get('/:id', async function (req, res) {
         let score = await db.collection('levels').findOne({
             '_id': ObjectId(req.params.id)
@@ -32,7 +41,7 @@ async function main() {
         res.send(score)
     })
 
-    // delete
+    // delete from levels
     app.delete('/:id', async function (req, res) {
         await db.collection('levels').deleteOne({
             _id: ObjectId(req.params.id)
@@ -41,10 +50,10 @@ async function main() {
             'status': 'ok'
         })
     })
-    //edit
+
+    //edit from levels
     app.patch('/:id', async function (req, res) {
         let { name, score} = req.body
-        // console.log(playerScore)
         await db.collection('levels').updateOne({
             '_id': ObjectId(req.params.id)},{
             '$push': {
@@ -53,19 +62,16 @@ async function main() {
         }
         )
         res.send('update done')
-
+ })
+    //     app.patch('/players_score/edit', async function (req, res) {
+    //     let player_score = await db.collection('players_score')
+    //     let newPlayer = player_score.find(({name:i}) => i === name)
+       
         
-        // let player_score = await db.collection('players_score')
-        // let newPlayer = player_score.find(({name:i}) => i === name)
-        // if (newPlayer){
-        //     await db.collection('players_score').insertOne({
-        //         player_score.
-        //     })
-        // }
-    })
+    // })
 
-    // create
-    app.post('/create', async function (req, res) {
+    // create from players_score
+    app.post('/players_score/create', async function (req, res) {
         let {name, score, level} = req.body
         await db.collection('players_score').insertOne({
             name, 
